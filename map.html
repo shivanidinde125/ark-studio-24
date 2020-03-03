@@ -1,0 +1,77 @@
+<html>
+<body>
+
+    <h1>this is layout of map</h1>
+
+    <input type="email" id="email" required/>
+    <input type="password" id="password" required/>
+    <button id="signin" onclick="toggleSignIn()">sign in</button>
+
+
+</body>
+</html>
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCl_IwsLNpKZAP9ByR4YQCFwMyx2NS6_i4",
+    authDomain: "ijacket.firebaseapp.com",
+    databaseURL: "https://ijacket.firebaseio.com",
+    projectId: "ijacket",
+    storageBucket: "ijacket.appspot.com",
+    messagingSenderId: "549647320207",
+    appId: "1:549647320207:web:43611d579c54bb85669cfa"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+<Script>
+   /**
+     * Handles the sign in button press.
+     */
+     function toggleSignIn() {
+      if (firebase.auth().currentUser) {
+        // [START signout]
+        firebase.auth().signOut();
+        // [END signout]
+      } else {
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        if (email.length < 4) {
+          alert('Please enter an email address.');
+          return;
+        }
+        if (password.length < 4) {
+          alert('Please enter a password.');
+          return;
+        }
+        // Sign in with email and pass.
+        // [START authwithemail]
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // [START_EXCLUDE]
+          if (errorCode === 'auth/wrong-password') {
+            alert('Wrong password.');
+          } else {
+            alert(errorMessage);
+          }
+          console.log(error);
+          document.getElementById('quickstart-sign-in').disabled = false;
+          // [END_EXCLUDE]
+        });
+        // [END authwithemail]
+      }
+      document.getElementById('quickstart-sign-in').disabled = true;
+    }
+
+    
+</Script>
